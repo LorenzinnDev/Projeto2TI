@@ -1,0 +1,100 @@
+   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 100px;
+      font-family: "Outfit", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-style: normal;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    }
+
+    #nome {
+        width: 95%;
+    }
+
+    .logoTCL {
+      width: 200px;
+      margin-bottom: 15px;
+    }
+    h2, h3 {
+      color: #16537e;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+    select, input {
+      background: #f9f9f9;
+    }
+    .stars {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .star {
+      transition: color 0.3s ease;
+    }
+    .star:hover,
+    .star.selected {
+      color: #f5a623;
+    }
+    button {
+      background-color: #16537e;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      width: 30%;
+    }
+    button:hover {
+      background-color: #123a5e;
+    }
+
+    .container-text {
+      height: 70px;
+      border: 2px solid #16537e;
+      border-radius: 18px;
+    }
+
+    #developed {
+        font-size: 13px;
+        color: #aaaaaa;
+    }
+
+    .linkedin {
+        text-decoration: none;
+        color:#16537e;
+    }
+
+    .linkedin:hover {
+        color: #2379b6;
+    }
+    
+    .avaliacao-texto {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+    }

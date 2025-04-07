@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AvalieTI</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="https://taclashopping.com.br/wp-content/uploads/2018/12/cropped-fav_site-32x32.png" type="image/png">
+</head>
+<body>
+  <div class="container">
+    <img class="logoTCL" src="./TACLAA.png" alt="logo-tacla">
+    <h2>Como você avalia o chamado?</h2>
+     
+    <input type="text" id="nome" placeholder="Nome:" required>
+    <br>
+    <label for="setor"><strong>Selecione o Setor:</strong></label>
+    <select id="setor" required>
+      <option value="" disabled selected>Selecionar:</option>
+      <option value="DIRETORIA">DIRETORIA / SUPERINTENDÊNCIA</option>
+      <option value="TI">TI</option>
+      <option value="RECEPÇÃO">RECEPÇÃO</option>
+      <option value="OPERACIONAL">OPERACIONAL</option>
+      <option value="FATURAMENTO">FATURAMENTO</option>
+      <option value="COMERCIAL">COMERCIAL</option>
+      <option value="FINANCEIRO">FINANCEIRO</option>
+      <option value="CONTABILIDADE">CONTABILIDADE</option>
+      <option value="JURÍDICO">JURÍDICO</option>
+      <option value="MARKETING">MARKETING</option>
+      <option value="BOMBEIROS">BOMBEIROS</option>
+      <option value="SEGURANÇA">SEGURANÇA</option>
+      <option value="RH">RH</option>
+      <option value="ALMOXARIFADO">ALMOXARIFADO</option>
+      <option value="IMAX">IMAX</option>
+      <option value="INOVAÇÃO">INOVAÇÕES</option>
+      <option value="MERCHANDISING">MERCHANDISING</option>
+
+    </select>
+    <br>
+    <label for="opcao"><strong>Selecione o Empreendimento:</strong></label>
+    <select id="opcao" required>
+      <option value="" disabled selected>Selecionar:</option>
+      <option value="SHOPPING PALLADIUM CURITIBA">SHOPPING PALLADIUM CURITIBA</option>
+      <option value="VENTURA SHOPPING">VENTURA SHOPPING</option>
+      <option value="CITY CENTER OUTLET">CITY CENTER OUTLET</option>
+      <option value="JOCKEY PLAZA">JOCKEY PLAZA</option>
+      <option value="SHOPPING PALLADIUM UMUARAMA">SHOPPING PALLADIUM UMUARAMA</option>
+      <option value="CATUAÍ PALLADIUM">CATUAÍ PALLADIUM</option>
+      <option value="SHOPPING PALLADIUM PONTA GROSSA">SHOPPING PALLADIUM PONTA GROSSA</option>
+      <option value="SHOPPING CIDADE SOROCABA">SHOPPING CIDADE SOROCABA</option>
+      <option value="SHOPPING ESTACAO">SHOPPING ESTACAO</option>
+      <option value="ITAJAÍ SHOPPING">ITAJAÍ SHOPPING</option>
+      <option value="PORTO BELO OUTLET PREMIUM">PORTO BELO OUTLET PREMIUM</option>
+      
+    </select>
+    
+    <h3>Avaliar:</h3>
+    <div class="stars">
+      <span class="star" data-value="1">&#9733;</span>
+      <span class="star" data-value="2">&#9733;</span>
+      <span class="star" data-value="3">&#9733;</span>
+      <span class="star" data-value="4">&#9733;</span>
+      <span class="star" data-value="5">&#9733;</span>
+    </div>
+
+    <div id="avaliacao-texto" class="avaliacao-texto"></div> <!-- Especificações da avaliação -->
+    
+    <input type="text" class="container-text" id="feedback" placeholder="Deixe um comentário (opcional)...">
+    
+    <button id="enviar">Enviar</button>
+      <p id="developed">Developed by <a class="linkedin" href="https://www.linkedin.com/in/lorenzo-sorrentino-aa3a27209/">Lorenzo S.</a></p>
+  </div>
+
+  <script>
+
+const stars = document.querySelectorAll('.star');
+const avaliacaoTexto = document.getElementById('avaliacao-texto');
+let selectedValue = 0;
+
+// Adiciona os eventos nas estrelas
+stars.forEach(star => {
+  star.addEventListener('mouseover', () => highlightStars(star));
+  star.addEventListener('mouseout', () => highlightStarsOnSelect());
+  star.addEventListener('click', () => selectStar(star));
+});
+
+// Função que altera a cor das estrelas ao passar o mouse
+function highlightStars(star) {
+  const value = parseInt(star.getAttribute('data-value'));
+  stars.forEach((s, index) => {
+    s.style.color = index < value ? '#f5a623' : '#ccc';
+  });
+}
+
+// Função que mantém as estrelas coloridas após a seleção
+function highlightStarsOnSelect() {
+  stars.forEach((star, index) => {
+    star.style.color = index < selectedValue ? '#f5a623' : '#ccc';
+  });
+}
+
+// Função que define o valor selecionado ao clicar na estrela
+function selectStar(star) {
+  selectedValue = parseInt(star.getAttribute('data-value'));
+  stars.forEach((s, index) => {
+    s.classList.toggle('selected', index < selectedValue);
+  });
+
+  // Exibe o texto correspondente à avaliação após a seleção
+  updateAvaliacaoTexto(selectedValue);
+}
+
+// Função para atualizar o texto conforme a avaliação
+function updateAvaliacaoTexto(valor) {
+  let texto = '';
+  switch(valor) {
+    case 1:
+      texto = 'Não Satisfeito';
+      break;
+    case 2:
+      texto = 'Pouco Satisfeito';
+      break;
+    case 3:
+      texto = 'Razoavelmente Satisfeito';
+      break;
+    case 4:
+      texto = 'Satisfeito';
+      break;
+    case 5:
+      texto = 'Muito Satisfeito';
+      break;
+    default:
+      texto = '';
+  }
+  avaliacaoTexto.textContent = texto;
+}
+
+// Evento de envio do formulário
+document.getElementById('enviar').addEventListener('click', () => {
+  const nome = document.getElementById('nome').value;
+  const setor = document.getElementById('setor').value;
+  const opcao = document.getElementById('opcao').value;
+  const comentario = document.getElementById('feedback').value;
+
+  if (!nome || !setor || !opcao || selectedValue === 0) {
+    alert("Por favor, preencha todos os campos e selecione uma avaliação.");
+    return;
+  }
+
+  const agora = new Date();
+  const data = agora.toISOString().split('T')[0];
+  const hora = agora.toTimeString().split(' ')[0];
+
+  fetch('salvo.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, setor, data, hora, opcao, avaliacao: selectedValue, comentario })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message);
+    window.location.href = 'agradecimento.html'; // Redireciona para a página de agradecimento
+  })
+  .catch(error => {
+    alert('Erro ao enviar os dados. Tente novamente.');
+  });
+});
+
+  </script>
+  
+</body>
+</html>
