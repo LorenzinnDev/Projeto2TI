@@ -1,25 +1,27 @@
    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-    body {
-      background-color: #f4f4f4;
-      color: #333;
-      text-align: center;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 100px;
-      font-family: "Outfit", sans-serif;
-      font-optical-sizing: auto;
-      font-weight: 400;
-      font-style: normal;
-    }
+
+   body {
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    min-height: 99vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 10px;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       background: white;
       padding: 35px;
-      border-radius: 20px;
+      border-radius: 40px;
       width: 90%;
       max-width: 400px;
       box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -73,7 +75,7 @@
     }
 
     .container-text {
-      height: 70px;
+      height: 50px;
       border: 2px solid #16537e;
       border-radius: 18px;
     }
@@ -97,4 +99,17 @@
       font-size: 16px;
       color: #333;
       font-weight: bold;
+    }
+
+    .infoCham {
+      
+      font-size: 15px;
+    }
+
+    .ticket-info {
+      background-color: #f6f6f6;
+      padding: 12px;
+      border-radius: 12px;
+      width: 500px auto;
+      border: 1px solid rgb(212, 212, 212);
     }
