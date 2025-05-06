@@ -51,3 +51,25 @@ try {
   echo json_encode(["success" => false, "error" => $e->getMessage()]);
 }
 ?>
+
+/* -- Banco de dados e tabela para o sistema de avaliações GLPI
+
+-- 1) Cria o banco de dados (se não existir)
+CREATE DATABASE IF NOT EXISTS avaliacoes_chamados
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- 2) Seleciona o banco de dados
+USE avaliacoes_chamados;
+
+-- 3) Cria a tabela de avaliações (se não existir), garantindo que cada chamado só possa ser avaliado uma vez
+CREATE TABLE IF NOT EXISTS avaliacoes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  ticket_id VARCHAR(255)        NOT NULL,
+  ticket_name TEXT              NOT NULL,
+  ticket_createdate VARCHAR(255) NOT NULL,
+  estrelas INT                  NOT NULL  CHECK (estrelas BETWEEN 1 AND 5),
+  comentario TEXT                       NULL,
+  data_submissao TIMESTAMP       NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT unico_ticket UNIQUE (ticket_id)
+); */
