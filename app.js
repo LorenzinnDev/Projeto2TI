@@ -60,7 +60,6 @@ function verificarAvaliacao(ticketId) {
     .catch(err => console.error('Erro ao verificar avaliação:', err));
 }
 
-// Captura e exibe os parâmetros do GLPI, e chama a verificação
 function getTicketInfo() {
   const params = new URLSearchParams(window.location.search);
   const id    = params.get('ticket_id');
@@ -71,8 +70,25 @@ function getTicketInfo() {
   document.getElementById('ticket-name').textContent = name ? decodeURIComponent(name) : 'N/A';
   document.getElementById('ticket-date').textContent = date || 'N/A';
 
-  if (id) verificarAvaliacao(id);
+  if (id) {
+    verificarAvaliacao(id);
+    
+    // Chama o PHP para buscar o nome do requerente e a data de abertura
+    fetch(`php/buscarDados.php?ticket_id=${id}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('ticket-requester').textContent = data.requester_name || 'N/A';
+        // Preenche a data de abertura com o valor retornado do banco
+        document.getElementById('ticket-date').textContent = data.ticket_createdate ? new Date(data.ticket_createdate).toLocaleString() : 'N/A';
+      })
+      .catch(err => {
+        console.error('Erro ao buscar dados do ticket:', err);
+        document.getElementById('ticket-requester').textContent = 'Erro';
+        document.getElementById('ticket-date').textContent = 'Erro';
+      });
+  }
 }
+
 getTicketInfo();
 
 // Agora o fetch dentro do listener de clique
@@ -87,17 +103,22 @@ document.getElementById('enviar').addEventListener('click', () => {
     return;
   }
 
-  fetch('php/salvar.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      ticket_id,
-      ticket_name,
-      ticket_createdate,
-      estrelas: selectedValue,
-      comentario
+    const requester_name = document.getElementById('ticket-requester').textContent;
+
+    fetch('php/salvar.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ticket_id,
+        ticket_name,
+        ticket_createdate,
+        requester_name,
+        estrelas: selectedValue,
+        comentario
+      })
     })
-  })
+    
+
   .then(res => res.json())
   .then(data => {
     if (data.success) {
@@ -111,3 +132,17 @@ document.getElementById('enviar').addEventListener('click', () => {
     alert("Erro inesperado ao enviar avaliação.");
   });
 });
+
+function buscarRequerente(ticketId) {
+  fetch(`php/buscarDados.php?ticket_id=${ticketId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.requester_name) {
+        const p = document.createElement('p');
+        p.className = "infoCham";
+        p.innerHTML = `<strong>REQUERENTE:</strong> ${data.requester_name}`;
+        document.querySelector('.ticket-info').appendChild(p);
+      }
+    })
+    .catch(err => console.error('Erro ao buscar nome do requerente:', err));
+}

@@ -20,6 +20,8 @@ try {
   $ticket_createdate = $conn->real_escape_string($data['ticket_createdate']);
   $estrelas = (int)$data['estrelas'];
   $comentario = $conn->real_escape_string($data['comentario']);
+  $requester_name = $conn->real_escape_string($data['requester_name']);
+
 
   $conn->query("CREATE TABLE IF NOT EXISTS avaliacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,8 +34,9 @@ try {
     CONSTRAINT unico_ticket UNIQUE (ticket_id)
   )");
 
-  $sql = "INSERT INTO avaliacoes (ticket_id, ticket_name, ticket_createdate, estrelas, comentario)
-          VALUES ('$ticket_id', '$ticket_name', '$ticket_createdate', $estrelas, '$comentario')";
+$sql = "INSERT INTO avaliacoes (ticket_id, ticket_name, ticket_createdate, requester_name, estrelas, comentario)
+VALUES ('$ticket_id', '$ticket_name', '$ticket_createdate', '$requester_name', $estrelas, '$comentario')";
+
 
   if ($conn->query($sql)) {
     echo json_encode(["success" => true]);
@@ -51,25 +54,3 @@ try {
   echo json_encode(["success" => false, "error" => $e->getMessage()]);
 }
 ?>
-
-/* -- Banco de dados e tabela para o sistema de avaliações GLPI
-
--- 1) Cria o banco de dados (se não existir)
-CREATE DATABASE IF NOT EXISTS avaliacoes_chamados
-  DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_unicode_ci;
-
--- 2) Seleciona o banco de dados
-USE avaliacoes_chamados;
-
--- 3) Cria a tabela de avaliações (se não existir), garantindo que cada chamado só possa ser avaliado uma vez
-CREATE TABLE IF NOT EXISTS avaliacoes (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  ticket_id VARCHAR(255)        NOT NULL,
-  ticket_name TEXT              NOT NULL,
-  ticket_createdate VARCHAR(255) NOT NULL,
-  estrelas INT                  NOT NULL  CHECK (estrelas BETWEEN 1 AND 5),
-  comentario TEXT                       NULL,
-  data_submissao TIMESTAMP       NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT unico_ticket UNIQUE (ticket_id)
-); */
